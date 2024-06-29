@@ -1,195 +1,520 @@
 {
-  "openapi": "3.0.1",
-  "info": {
-    "title": "OpenAPI Plant Store",
-    "description": "A sample API that uses a plant store as an example to demonstrate features in the OpenAPI specification",
-    "license": {
-      "name": "MIT"
+    "openapi": "3.0.0",
+    "info": {
+        "title": "nocodb",
+        "version": "2.0"
     },
-    "version": "1.0.0"
-  },
-  "servers": [
-    {
-      "url": "http://sandbox.mintlify.com"
-    }
-  ],
-  "security": [
-    {
-      "bearerAuth": []
-    }
-  ],
-  "paths": {
-    "/plants": {
-      "get": {
-        "description": "Returns all plants from the system that the user has access to",
-        "parameters": [
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "The maximum number of results to return",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Plant response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Plant"
-                  }
+    "servers": [
+        {
+            "url": "https://back.docapi.dev"
+        },
+        {
+            "url": "{customUrl}",
+            "variables": {
+                "customUrl": {
+                    "default": "https://back.docapi.dev",
+                    "description": "Provide custom nocodb app base url"
                 }
-              }
             }
-          },
-          "400": {
-            "description": "Unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
         }
-      },
-      "post": {
-        "description": "Creates a new plant in the store",
-        "requestBody": {
-          "description": "Plant to add to the store",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/NewPlant"
-              }
+    ],
+    "paths": {
+        "/api/v2/tables/mrkhpuelhjtgbr6/records": {
+            "get": {
+                "summary": "Sistema Solar list",
+                "operationId": "sistema solar-db-table-row-list",
+                "description": "List of all rows from Sistema Solar table and response data fields can be filtered based on query params.",
+                "tags": [
+                    "Sistema Solar"
+                ],
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "vwy4pal252z0lg5l"
+                            ]
+                        },
+                        "description": "Allows you to fetch records that are currently visible within a specific view.\n\nViews:\n* vwy4pal252z0lg5l - Default view",
+                        "name": "viewId",
+                        "in": "query",
+                        "required": false
+                    },
+                    {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "name": "fields",
+                        "description": "Array of field names or comma separated filed names to include in the response objects. In array syntax pass it like `fields[]=field1&fields[]=field2` or alternately `fields=field1,field2`."
+                    },
+                    {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "name": "sort",
+                        "description": "Comma separated field names to sort rows, rows will sort in ascending order based on provided columns. To sort in descending order provide `-` prefix along with column name, like `-field`. Example : `sort=field1,-field2`"
+                    },
+                    {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "name": "where",
+                        "description": "This can be used for filtering rows, which accepts complicated where conditions. For more info visit [here](https://docs.nocodb.com/developer-resources/rest-apis#comparison-operators). Example : `where=(field1,eq,value)`"
+                    },
+                    {
+                        "schema": {
+                            "type": "number",
+                            "minimum": 1
+                        },
+                        "in": "query",
+                        "name": "limit",
+                        "description": "The `limit` parameter used for pagination, the response collection size depends on limit value with default value `25` and maximum value `1000`, which can be overridden by environment variables `DB_QUERY_LIMIT_DEFAULT` and `DB_QUERY_LIMIT_MAX` respectively.",
+                        "example": 25
+                    },
+                    {
+                        "schema": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "in": "query",
+                        "name": "shuffle",
+                        "description": "The `shuffle` parameter used for pagination, the response will be shuffled if it is set to 1.",
+                        "example": 0
+                    },
+                    {
+                        "schema": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "in": "query",
+                        "name": "offset",
+                        "description": "The `offset` parameter used for pagination, the value helps to select collection from a certain index.",
+                        "example": 0
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "list": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Sistema SolarResponse"
+                                            }
+                                        },
+                                        "PageInfo": {
+                                            "$ref": "#/components/schemas/Paginated"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Sistema Solar create",
+                "description": "Insert a new row in table by providing a key value pair object where key refers to the column alias. All the required fields should be included with payload excluding `autoincrement` and column with default value.",
+                "operationId": "sistema solar-create",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Sistema SolarResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/BadRequest"
+                    }
+                },
+                "tags": [
+                    "Sistema Solar"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "oneOf": [
+                                    {
+                                        "$ref": "#/components/schemas/Sistema SolarRequest"
+                                    },
+                                    {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/Sistema SolarRequest"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Sistema Solar update",
+                "operationId": "sistema solar-update",
+                "description": "Partial update row in table by providing a key value pair object where key refers to the column alias. You need to only include columns which you want to update.",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/BadRequest"
+                    }
+                },
+                "tags": [
+                    "Sistema Solar"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "oneOf": [
+                                    {
+                                        "$ref": "#/components/schemas/Sistema SolarRequest"
+                                    },
+                                    {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/Sistema SolarRequest"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Sistema Solar delete",
+                "operationId": "sistema solar-delete",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "tags": [
+                    "Sistema Solar"
+                ],
+                "description": "Delete a row by using the **primary key** column value.",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "oneOf": [
+                                    {
+                                        "$ref": "#/components/schemas/Sistema SolarIdRequest"
+                                    },
+                                    {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/Sistema SolarIdRequest"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
             }
-          },
-          "required": true
+        },
+        "/api/v2/tables/mrkhpuelhjtgbr6/records/{recordId}": {
+            "get": {
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "name": "recordId",
+                        "in": "path",
+                        "required": true,
+                        "example": 1,
+                        "description": "Primary key of the record you want to read. If the table have composite primary key then combine them by using `___` and pass it as primary key."
+                    },
+                    {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "name": "fields",
+                        "description": "Array of field names or comma separated filed names to include in the response objects. In array syntax pass it like `fields[]=field1&fields[]=field2` or alternately `fields=field1,field2`."
+                    }
+                ],
+                "summary": "Sistema Solar read",
+                "description": "Read a row data by using the **primary key** column value.",
+                "operationId": "sistema solar-read",
+                "tags": [
+                    "Sistema Solar"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Sistema SolarResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v2/tables/mrkhpuelhjtgbr6/records/count": {
+            "parameters": [
+                {
+                    "schema": {
+                        "type": "string",
+                        "enum": [
+                            "vwy4pal252z0lg5l"
+                        ]
+                    },
+                    "description": "Allows you to fetch records that are currently visible within a specific view.\n\nViews:\n* vwy4pal252z0lg5l - Default view",
+                    "name": "viewId",
+                    "in": "query",
+                    "required": false
+                }
+            ],
+            "get": {
+                "summary": "Sistema Solar count",
+                "operationId": "sistema solar-count",
+                "description": "Get rows count of a table by applying optional filters.",
+                "tags": [
+                    "Sistema Solar"
+                ],
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "name": "where",
+                        "description": "This can be used for filtering rows, which accepts complicated where conditions. For more info visit [here](https://docs.nocodb.com/developer-resources/rest-apis#comparison-operators). Example : `where=(field1,eq,value)`"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "count": {
+                                            "type": "number"
+                                        }
+                                    },
+                                    "required": [
+                                        "list",
+                                        "pageInfo"
+                                    ]
+                                },
+                                "examples": {
+                                    "Example 1": {
+                                        "value": {
+                                            "count": 3
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/BadRequest"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Paginated": {
+                "title": "Paginated",
+                "type": "object",
+                "properties": {
+                    "pageSize": {
+                        "type": "integer"
+                    },
+                    "totalRows": {
+                        "type": "integer"
+                    },
+                    "isFirstPage": {
+                        "type": "boolean"
+                    },
+                    "isLastPage": {
+                        "type": "boolean"
+                    },
+                    "page": {
+                        "type": "number"
+                    }
+                }
+            },
+            "Attachment": {
+                "title": "Attachment",
+                "type": "object",
+                "properties": {
+                    "mimetype": {
+                        "type": "string"
+                    },
+                    "size": {
+                        "type": "integer"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "url": {
+                        "type": "string"
+                    },
+                    "icon": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Groupby": {
+                "title": "Groupby",
+                "type": "object",
+                "properties": {
+                    "count": {
+                        "type": "number",
+                        "description": "count"
+                    },
+                    "column_name": {
+                        "type": "string",
+                        "description": "the value of the given column"
+                    }
+                }
+            },
+            "Sistema SolarResponse": {
+                "title": "Sistema Solar Response",
+                "type": "object",
+                "description": "",
+                "x-internal": false,
+                "properties": {
+                    "Id": {
+                        "type": "integer"
+                    },
+                    "slug": {
+                        "type": "string"
+                    },
+                    "nome": {
+                        "type": "string"
+                    },
+                    "descrição": {
+                        "type": "string"
+                    },
+                    "idade": {
+                        "type": "integer"
+                    },
+                    "img": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Attachment"
+                        }
+                    }
+                }
+            },
+            "Sistema SolarRequest": {
+                "title": "Sistema Solar Request",
+                "type": "object",
+                "description": "",
+                "x-internal": false,
+                "properties": {
+                    "slug": {
+                        "type": "string"
+                    },
+                    "nome": {
+                        "type": "string"
+                    },
+                    "descrição": {
+                        "type": "string"
+                    },
+                    "idade": {
+                        "type": "integer"
+                    }
+                }
+            },
+            "Sistema SolarIdRequest": {
+                "title": "Sistema Solar Id Request",
+                "type": "object",
+                "description": "",
+                "x-internal": false,
+                "properties": {
+                    "Id": {
+                        "type": "integer"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "xcAuth": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "xc-auth",
+                "description": "JWT access token"
+            },
+            "xcToken": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "xc-token",
+                "description": "API token"
+            }
         },
         "responses": {
-          "200": {
-            "description": "plant response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Plant"
-                }
-              }
+            "BadRequest": {
+                "description": "BadRequest",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "msg": {
+                                    "type": "string",
+                                    "x-stoplight": {
+                                        "id": "p9mk4oi0hbihm"
+                                    },
+                                    "example": "BadRequest [Error]: <ERROR MESSAGE>"
+                                }
+                            },
+                            "required": [
+                                "msg"
+                            ]
+                        },
+                        "examples": {
+                            "Example 1": {
+                                "value": {
+                                    "msg": "BadRequest [Error]: <ERROR MESSAGE>"
+                                }
+                            }
+                        }
+                    }
+                },
+                "headers": {}
             }
-          },
-          "400": {
-            "description": "unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
         }
-      }
     },
-    "/plants/{id}": {
-      "delete": {
-        "description": "Deletes a single plant based on the ID supplied",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "ID of plant to delete",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Plant deleted",
-            "content": {}
-          },
-          "400": {
-            "description": "unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
+    "security": [
+        {
+            "xcAuth": []
+        },
+        {
+            "xcToken": []
         }
-      }
-    }
-  },
-  "components": {
-    "schemas": {
-      "Plant": {
-        "required": [
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "name": {
-            "description": "The name of the plant",
-            "type": "string"
-          },
-          "tag": {
-            "description": "Tag to specify the type",
-            "type": "string"
-          }
-        }
-      },
-      "NewPlant": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/Plant"
-          },
-          {
-            "required": [
-              "id"
-            ],
-            "type": "object",
-            "properties": {
-              "id": {
-                "description": "Identification number of the plant",
-                "type": "integer",
-                "format": "int64"
-              }
-            }
-          }
-        ]
-      },
-      "Error": {
-        "required": [
-          "error",
-          "message"
-        ],
-        "type": "object",
-        "properties": {
-          "error": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "message": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer"
-      }
-    }
-  }
+    ]
 }
